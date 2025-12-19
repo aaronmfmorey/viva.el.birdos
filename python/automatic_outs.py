@@ -59,12 +59,10 @@ def build_chart(df: pd.DataFrame, variable_field: str):
 def main():
     cache.enable()
     pd.set_option("display.max_rows", None)
+    pd.set_option("display.max_columns", None)
     batting_stats_df = batting_stats(2021, 2025)
 
     batting_stats_df = calculate_automatic_outs(batting_stats_df)
-
-    # print(batting_stats_df.columns.tolist())
-    # exit
 
     strikeouts_subset = sort_df_by_stat(batting_stats_df, "K%")
 
@@ -72,7 +70,7 @@ def main():
     print("Nolan Arenado K% Ranks")
     pprint(strikeouts_subset[strikeouts_subset["Name"] == "Nolan Arenado"])
     print(
-        f"Overall Correlation between K% and wRC+:\n{strikeouts_subset[['K%', 'wRC+']].corr()}"
+        f"Overall Correlation between K% and wRC+:\n{batting_stats_df[['K%', 'wRC+']].corr()}"
     )
     build_chart(batting_stats_df, "K%")
 
@@ -81,7 +79,7 @@ def main():
     print("Nolan Arenado Automatic Outs Ranks")
     pprint(auto_outs_subset[auto_outs_subset["Name"] == "Nolan Arenado"])
     print(
-        f"Overall Correlation between AutoOut% and wRC+:\n{auto_outs_subset[['auto_out_rate', 'wRC+']].corr()}"
+        f"Overall Correlation between AutoOut% and wRC+:\n{batting_stats_df[['auto_out_rate', 'wRC+']].corr()}"
     )
     build_chart(batting_stats_df, "auto_out_rate")
 
